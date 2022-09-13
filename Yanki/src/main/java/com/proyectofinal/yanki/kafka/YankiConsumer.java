@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class YankiConsumer {
 	
     //@KafkaListener(topics = "${events.topic.input.pattern}", groupId = "group_id")
-    @KafkaListener(topics = "tTransaction", groupId = "group01")
+    @KafkaListener(topics = "tTransaction")
     public void consume(String producto) throws IOException {
         //logica de negocio
         log.info(String.format("#### CONSUMER ##### -> Consumed message -> %s", producto));

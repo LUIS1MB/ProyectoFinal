@@ -1,5 +1,6 @@
 package com.proyectofinal.customer.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyectofinal.customer.models.Personal;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class PersonalService implements IPersonalService {
 	
+	@Autowired
 	private PersonalRepository repository;
 
 	@Override
