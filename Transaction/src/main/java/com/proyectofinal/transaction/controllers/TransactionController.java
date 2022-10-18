@@ -38,8 +38,9 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Map<String, Object>>> save(@Valid @RequestBody Mono<Transaction> monoTransaction) {
+    public Mono<ResponseEntity<Map<String, Object>>> save(@Valid @RequestBody Transaction requestTransaction) {
         Map<String, Object> result = new HashMap<String, Object>();
+        Mono<Transaction> monoTransaction = Mono.just(requestTransaction);
         return monoTransaction.flatMap(transaction -> {
             return service.save(transaction).map(p -> {
                 result.put("Movimiento", p);

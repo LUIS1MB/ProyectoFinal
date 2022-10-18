@@ -27,7 +27,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/Personal")
+@RequestMapping("/personal")
 public class PersonalController {
 
 	@Autowired
@@ -61,7 +61,7 @@ public class PersonalController {
                 result.put("Cliente", p);
                 result.put("mensaje", "Cliente guardado con éxito");
                 return ResponseEntity
-                        .created(URI.create("/api/Personal/".concat(customer.getId())))
+                        .created(URI.create("/api/personal/".concat(customer.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(result);
             });
@@ -83,7 +83,7 @@ public class PersonalController {
     public Mono<ResponseEntity<Personal>> edit(@RequestBody Personal customer, @PathVariable String id) {
         return service.findById(id).flatMap(p -> {
                     return service.save(p);
-                }).map(p -> ResponseEntity.created(URI.create("/api/Personal".concat(p.getId())))
+                }).map(p -> ResponseEntity.created(URI.create("/api/personal".concat(p.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(p))
                 .defaultIfEmpty(ResponseEntity.notFound().build());

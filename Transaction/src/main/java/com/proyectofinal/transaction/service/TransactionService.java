@@ -29,8 +29,8 @@ public class TransactionService implements ITransactionService {
 
 	private final WebClient webClient;
 
-	//@Autowired
-	private final TransactionProducer producer;
+	@Autowired
+	private TransactionProducer producer;
 
 	@Value("${account.url}")
 	private String urlAccount;
@@ -38,8 +38,7 @@ public class TransactionService implements ITransactionService {
 	@Value("${card.url}")
 	private String urlc;
 
-	public TransactionService(WebClient.Builder webBuilder, TransactionProducer producer) {
-		this.producer=producer;
+	public TransactionService(WebClient.Builder webBuilder) {
 		this.webClient = webBuilder.baseUrl("http://localhost:9040/card/").build();
 	}
 
@@ -65,7 +64,7 @@ public class TransactionService implements ITransactionService {
 		if (responseAccount.isPresent()) {
 			Account accountResult = responseAccount.getAccount();
 
-			if (accountResult.getAvailableBalance() > transaction.getAmount()) {
+			if (accountResult.getAvailableBalance() >= transaction.getAmount()) {
 				Account targetAccount = getAccount(transaction.getTargetAccount()).getAccount();
 				float newAmount = transaction.getAmount();
 				if (accountResult.isCommissionStatus()) {
@@ -85,14 +84,14 @@ public class TransactionService implements ITransactionService {
 
 				clientRest.put(urlAccount.concat(accountResult.getId().toString()), accountResult);
 				clientRest.put(urlAccount.concat(targetAccount.getId().toString()), targetAccount);
-
-				// transaction.setType("Retiro");
-				transaction.setDate(LocalDateTime.now());
-				Mono<Transaction> result = repository.save(transaction);
-				System.out.println("result: " + result);
-				producer.sendMessage("para transaction");
-				return result;
 			}
+
+			// transaction.setType("Retiro");
+			transaction.setDate(LocalDateTime.now());
+			Mono<Transaction> result = repository.save(transaction);
+			System.out.println("result: " + result);
+			producer.sendMessage("para transaction");
+			return result;
 		}
 		return null;
 	}

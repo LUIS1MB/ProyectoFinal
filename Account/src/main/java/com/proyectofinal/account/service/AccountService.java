@@ -45,7 +45,6 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public List<Account> findAll() {
-		log.info("prueba de findAll");
 		return accountRepository.findAll();
 	}
 	@Override
@@ -65,7 +64,6 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public Optional<Account> save(Account account) {
-		log.info(account.toString());
 		// buscar el tipo de cliente
 		CustomerPersonal p = clientRest.getForObject(urlp.concat(account.getCustomerId()), CustomerPersonal.class);
 		log.info(p.toString());

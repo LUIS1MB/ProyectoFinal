@@ -28,7 +28,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/Business")
+@RequestMapping("/business")
 @Slf4j
 public class BusinessController {
 
@@ -62,7 +62,7 @@ public class BusinessController {
 			return service.save(customer).map(p -> {
 				result.put("Cliente", p);
 				result.put("mensaje", "Empresa guardada con éxito");
-				return ResponseEntity.created(URI.create("/api/Business/".concat(customer.getId())))
+				return ResponseEntity.created(URI.create("/api/business/".concat(customer.getId())))
 						.contentType(MediaType.APPLICATION_JSON).body(result);
 			});
 		}).onErrorResume(err -> {
